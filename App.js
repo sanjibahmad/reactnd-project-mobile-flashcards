@@ -1,5 +1,6 @@
 import React from "react";
-import { Platform, SafeAreaView, StatusBar, View } from "react-native";
+import { Platform, StatusBar, View } from "react-native";
+import { Constants } from "expo";
 
 import {
   createBottomTabNavigator,
@@ -8,10 +9,13 @@ import {
 import { createAppContainer, createStackNavigator } from "react-navigation";
 
 import Decks from "./components/Decks";
+import Deck from "./components/Deck";
 import AddDeck from "./components/AddDeck";
+import AddCard from "./components/AddCard";
+import Quiz from "./components/Quiz";
 
-const tabSettings = {
-  tabRouteConfigs: {
+const tabNavigatorSettings = {
+  routeConfigs: {
     Decks: {
       screen: Decks
     },
@@ -19,10 +23,14 @@ const tabSettings = {
       screen: AddDeck
     }
   },
-  tabNavigationOptions: {
+  navigationOptions: {
     navigationOptions: { header: null },
     tabBarOptions: {}
   }
+};
+
+const stackNavigatorSettings = {
+  navigationOptions: {}
 };
 
 const MainNavigator = createStackNavigator({
@@ -30,26 +38,45 @@ const MainNavigator = createStackNavigator({
     screen:
       Platform.OS === "ios"
         ? createBottomTabNavigator(
-            tabSettings.tabRouteConfigs,
-            tabSettings.tabNavigationOptions
+            tabNavigatorSettings.routeConfigs,
+            tabNavigatorSettings.navigationOptions
           )
         : createMaterialTopTabNavigator(
-            tabSettings.tabRouteConfigs,
-            tabSettings.tabNavigationOptions
+            tabNavigatorSettings.routeConfigs,
+            tabNavigatorSettings.navigationOptions
           )
+  },
+  Deck: {
+    screen: Deck,
+    navigationOptions: stackNavigatorSettings.navigationOptions
+  },
+  AddCard: {
+    screen: AddCard,
+    navigationOptions: stackNavigatorSettings.navigationOptions
+  },
+  Quiz: {
+    screen: Quiz,
+    navigationOptions: stackNavigatorSettings.navigationOptions
   }
 });
 
 const AppContainer = createAppContainer(MainNavigator);
 
+function FlashcardsStatusBar({ backgroundColor, ...props }) {
+  return (
+    <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
+      <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+    </View>
+  );
+}
+
 export default class App extends React.Component {
   render() {
     return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <View style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
-          <AppContainer />
-        </View>
-      </SafeAreaView>
+      <View style={{ flex: 1 }}>
+        <FlashcardsStatusBar backgroundColor="gray" barStyle="light-content" />
+        <AppContainer />
+      </View>
     );
   }
 }
