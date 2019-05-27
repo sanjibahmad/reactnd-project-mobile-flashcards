@@ -1,4 +1,6 @@
 import React from "react";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
 import { Platform, StatusBar, View } from "react-native";
 import { Constants } from "expo";
 
@@ -8,11 +10,14 @@ import {
 } from "react-navigation-tabs";
 import { createAppContainer, createStackNavigator } from "react-navigation";
 
+import reducer from "./reducers";
 import Decks from "./components/Decks";
 import Deck from "./components/Deck";
 import AddDeck from "./components/AddDeck";
 import AddCard from "./components/AddCard";
 import Quiz from "./components/Quiz";
+
+const store = createStore(reducer);
 
 const tabNavigatorSettings = {
   routeConfigs: {
@@ -73,10 +78,15 @@ function FlashcardsStatusBar({ backgroundColor, ...props }) {
 export default class App extends React.Component {
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <FlashcardsStatusBar backgroundColor="gray" barStyle="light-content" />
-        <AppContainer />
-      </View>
+      <Provider store={store}>
+        <View style={{ flex: 1 }}>
+          <FlashcardsStatusBar
+            backgroundColor="gray"
+            barStyle="light-content"
+          />
+          <AppContainer />
+        </View>
+      </Provider>
     );
   }
 }

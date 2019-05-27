@@ -1,22 +1,22 @@
-const GET_DECKS = "GET_DECKS";
-const ADD_DECK = "ADD_DECK";
-const ADD_CARD = "ADD_CARD";
+export const LOAD_DECKS = "LOAD_DECKS";
+export const ADD_DECK = "ADD_DECK";
+export const ADD_CARD = "ADD_CARD";
 
-function getDecks(decks) {
+export function loadDecks(decks) {
   return {
-    type: GET_DECKS,
+    type: LOAD_DECKS,
     decks
   };
 }
 
-function addDeck(deck) {
+export function addDeck(deck) {
   return {
     type: ADD_DECK,
     deck
   };
 }
 
-function addCard(card, deckId) {
+export function addCard(card, deckId) {
   return {
     type: ADD_CARD,
     card,

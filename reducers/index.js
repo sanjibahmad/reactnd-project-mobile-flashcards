@@ -1,8 +1,8 @@
-import { GET_DECKS, ADD_DECK, ADD_CARD } from "../actions";
+import { LOAD_DECKS, ADD_DECK, ADD_CARD } from "../actions";
 
 function decks(state = {}, action) {
   switch (action.type) {
-    case GET_DECKS:
+    case LOAD_DECKS:
       return {
         ...state,
         ...action.decks
@@ -27,3 +27,5 @@ function decks(state = {}, action) {
       return state;
   }
 }
+
+export default decks;
