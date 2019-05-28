@@ -53,15 +53,24 @@ const MainNavigator = createStackNavigator({
   },
   Deck: {
     screen: Deck,
-    navigationOptions: stackNavigatorSettings.navigationOptions
+    navigationOptions: {
+      ...stackNavigatorSettings.navigationOptions,
+      title: "Deck"
+    }
   },
   AddCard: {
     screen: AddCard,
-    navigationOptions: stackNavigatorSettings.navigationOptions
+    navigationOptions: {
+      ...stackNavigatorSettings.navigationOptions,
+      title: "Add Card"
+    }
   },
   Quiz: {
     screen: Quiz,
-    navigationOptions: stackNavigatorSettings.navigationOptions
+    navigationOptions: {
+      ...stackNavigatorSettings.navigationOptions,
+      title: "Quiz"
+    }
   }
 });
 

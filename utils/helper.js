@@ -1,3 +1,16 @@
+export function createDeckObject(deckTitle) {
+  return {
+    [deckTitle]: {
+      title: deckTitle,
+      questions: []
+    }
+  };
+}
+
+export function createCardObject(question, answer) {
+  return { question, answer };
+}
+
 export function getDummyData() {
   return {
     React: {

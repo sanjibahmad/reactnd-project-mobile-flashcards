@@ -8,10 +8,9 @@ function decks(state = {}, action) {
         ...action.decks
       };
     case ADD_DECK:
-      const deck = action.deck;
       return {
         ...state,
-        [deck.id]: deck
+        ...action.deck
       };
     case ADD_CARD:
       const deckId = action.deckId;

@@ -36,6 +36,7 @@ class Decks extends Component {
     }
 
     const { decks } = this.props;
+    // console.log(decks);
 
     return (
       <View>
