@@ -1,5 +1,4 @@
 import { AsyncStorage } from "react-native";
-import { createCardObject, createDeckObject, getDummyData } from "./helper";
 
 const DECKS_STORAGE_KEY = "Flashcards:Decks";
 

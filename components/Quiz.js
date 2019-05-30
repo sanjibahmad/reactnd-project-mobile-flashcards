@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { Button, Text, View } from "react-native";
 import { connect } from "react-redux";
+import { clearLocalNotification, setLocalNotification } from "./utils/helper";
 
 import Card from "./Card";
 
 class Quiz extends Component {
   state = { score: 0, currentQuestionId: 0 };
 
-  handleResponse = ({ isCorrect }) => {
+  handleResponse = async ({ isCorrect }) => {
     if (isCorrect === true) {
       this.setState(previousState => {
         return { score: previousState.score + 1 };
@@ -18,6 +19,11 @@ class Quiz extends Component {
     this.setState(previousState => {
       return { currentQuestionId: previousState.currentQuestionId + 1 };
     });
+
+    // user has completed at least one quiz for today
+    // therefore reset notification
+    await clearLocalNotification();
+    setLocalNotification();
   };
 
   quiz() {

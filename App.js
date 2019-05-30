@@ -3,12 +3,12 @@ import { createStore } from "redux";
 import { Provider } from "react-redux";
 import { Platform, StatusBar, View } from "react-native";
 import { Constants } from "expo";
-
 import {
   createBottomTabNavigator,
   createMaterialTopTabNavigator
 } from "react-navigation-tabs";
 import { createAppContainer, createStackNavigator } from "react-navigation";
+import { clearLocalNotification, setLocalNotification } from "./utils/helper";
 
 import reducer from "./reducers";
 import Decks from "./components/Decks";
@@ -85,6 +85,11 @@ function FlashcardsStatusBar({ backgroundColor, ...props }) {
 }
 
 export default class App extends React.Component {
+  async componentDidMount() {
+    // await clearLocalNotification();
+    setLocalNotification();
+  }
+
   render() {
     return (
       <Provider store={store}>
