@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Text, TouchableOpacity, View } from "react-native";
 
-import { fetchDecks, removeAllDecks, saveAllDecks } from "../utils/api";
+import {
+  fetchDecksFromStorage,
+  removeAllDecksFromStorage,
+  saveAllDecksInStorage
+} from "../utils/api";
 import { loadDecks } from "../actions";
 import { getDummyData } from "../utils/helper";
 
@@ -10,14 +14,16 @@ class Decks extends Component {
   state = { ready: false };
 
   async componentDidMount() {
-    // await removeAllDecks();
+    // await removeAllDecksFromStorage();
     const { loadDecks } = this.props;
 
-    let decks = await fetchDecks();
+    let decks = await fetchDecksFromStorage();
     if (decks === null) {
-      await saveAllDecks(getDummyData());
+      // first time running the app, set some dummy data
+      // then fetch again
+      await saveAllDecksInStorage(getDummyData());
+      decks = await fetchDecksFromStorage();
     }
-    decks = await fetchDecks();
     loadDecks(decks);
     // console.log("Decks", decks);
 
@@ -61,7 +67,7 @@ class Decks extends Component {
 }
 
 const mapStateToProps = decks => {
-  // console.log("mapStateToProps", decks);
+  // console.log("mapStateToProps decks", decks);
   return { decks };
 };
 

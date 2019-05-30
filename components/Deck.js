@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Alert, Button, Text, View } from "react-native";
 import { connect } from "react-redux";
 
-import { removeDeck } from "../utils/api";
+import { removeDeckFromStorage } from "../utils/api";
 import { deleteDeck } from "../actions";
 
 class Deck extends Component {
@@ -29,7 +29,7 @@ class Deck extends Component {
           text: "OK",
           onPress: async () => {
             const { deleteDeck } = this.props;
-            await removeDeck(deckId);
+            await removeDeckFromStorage(deckId);
             deleteDeck(deckId);
             const { goBack } = this.props.navigation;
             goBack();
@@ -40,11 +40,21 @@ class Deck extends Component {
     );
   };
   render() {
-    const { deckId } = this.props.navigation.state.params;
+    // const { deckId } = this.props.navigation.state.params;
+    const { deck } = this.props;
+
+    if (!deck) {
+      return (
+        <View>
+          <Text>Loading...</Text>
+        </View>
+      );
+    }
+
     return (
       <View>
-        <Text>Deck Title {deckId}</Text>
-        <Text>N number of cards</Text>
+        <Text>Deck Title {deck.title}</Text>
+        <Text>{deck.questions.length} number of cards</Text>
         <Button onPress={this.handleAddCard} title="Add Card" />
         <Button onPress={this.handleStartQuiz} title="Start Quiz" />
         <Button onPress={this.handleDeleteDeck} title="Delete Deck" />
@@ -53,7 +63,13 @@ class Deck extends Component {
   }
 }
 
+const mapStateToProps = (decks, ownProps) => {
+  const { deckId } = ownProps.navigation.state.params;
+  const deck = decks[deckId];
+  return { deck };
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   { deleteDeck }
 )(Deck);

@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { Button, Text, TextInput, View } from "react-native";
+import { Alert, Button, Text, TextInput, View } from "react-native";
+import { connect } from "react-redux";
+
+import { saveCardInStorage } from "../utils/api";
+import { createCardObject } from "../utils/helper";
+import { addCard } from "../actions";
 
 class AddCard extends Component {
   state = { question: "", answer: "" };
@@ -12,10 +17,26 @@ class AddCard extends Component {
     this.setState({ answer: text });
   };
 
-  handleAddCard = () => {
+  handleAddCard = async () => {
+    const { deckId } = this.props.navigation.state.params;
     const { question, answer } = this.state;
-    const { goBack } = this.props.navigation;
+
+    if (!question || !answer) {
+      Alert.alert(
+        "Question and Answer Required",
+        "Please provide both a question and an answer.",
+        [{ text: "OK" }],
+        { cancelable: false }
+      );
+      return;
+    }
+
     // add card, then navigate back to deck
+    const { addCard } = this.props;
+    const { goBack } = this.props.navigation;
+    const card = createCardObject(question, answer);
+    await saveCardInStorage(card, deckId);
+    addCard(card, deckId);
     goBack();
   };
 
@@ -39,4 +60,7 @@ class AddCard extends Component {
   }
 }
 
-export default AddCard;
+export default connect(
+  null,
+  { addCard }
+)(AddCard);

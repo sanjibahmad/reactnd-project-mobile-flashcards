@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Alert, Button, Text, TextInput, View } from "react-native";
 import { connect } from "react-redux";
 
-import { saveDeck } from "../utils/api";
+import { saveDeckInStorage } from "../utils/api";
+import { createDeckObject } from "../utils/helper";
 import { addDeck } from "../actions";
 
 class AddDeck extends Component {
@@ -40,7 +41,8 @@ class AddDeck extends Component {
     // add deck, then navigate to the freshly created deck
 
     const { addDeck } = this.props;
-    const deck = await saveDeck(deckTitle);
+    const deck = createDeckObject(deckTitle);
+    await saveDeckInStorage(deck);
     addDeck(deck);
     navigate("Deck", { deckId: deckTitle });
   };
