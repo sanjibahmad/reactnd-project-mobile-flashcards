@@ -3,31 +3,29 @@ import { createCardObject, createDeckObject, getDummyData } from "./helper";
 
 const DECKS_STORAGE_KEY = "Flashcards:Decks";
 
-export function fetchDecks() {
-  return AsyncStorage.getItem(DECKS_STORAGE_KEY).then(result => {
-    if (result === null) {
-      const decks = getDummyData();
-      saveAllDecks(decks);
-      fetchDecks();
-    } else {
-      return JSON.parse(result);
-    }
-  });
+export async function fetchDecks() {
+  let decksData = await AsyncStorage.getItem(DECKS_STORAGE_KEY);
+  return JSON.parse(decksData);
 }
 
-export function removeAllDecks() {
-  AsyncStorage.clear();
+export async function removeAllDecks() {
+  await AsyncStorage.clear();
 }
 
-export function saveDeck(deckTitle) {
+export async function removeDeck(deckId) {
+  const decksData = await AsyncStorage.getItem(DECKS_STORAGE_KEY);
+  const decks = JSON.parse(decksData);
+  decks[deckId] = undefined;
+  delete decks[deckId];
+  await AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks));
+}
+
+export async function saveDeck(deckTitle) {
   const deck = createDeckObject(deckTitle);
-  return AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify(deck)).then(
-    () => {
-      return deck;
-    }
-  );
+  await AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify(deck));
+  return deck;
 }
 
-function saveAllDecks(decks) {
-  AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks));
+export async function saveAllDecks(decks) {
+  await AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks));
 }

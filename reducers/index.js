@@ -1,4 +1,4 @@
-import { LOAD_DECKS, ADD_DECK, ADD_CARD } from "../actions";
+import { LOAD_DECKS, ADD_DECK, DELETE_DECK, ADD_CARD } from "../actions";
 
 function decks(state = {}, action) {
   switch (action.type) {
@@ -12,14 +12,16 @@ function decks(state = {}, action) {
         ...state,
         ...action.deck
       };
+    case DELETE_DECK:
+      return Object.keys(state)
+        .filter(deckId => deckId !== action.deckId)
+        .map(deckId => state[deckId]);
     case ADD_CARD:
-      const deckId = action.deckId;
-      const card = action.card;
       return {
         ...state,
-        [deckId]: {
-          ...state.deckId,
-          questions: [...state.deckId.questions, card]
+        [action.deckId]: {
+          ...state.action.deckId,
+          questions: [...state.action.deckId.questions, action.card]
         }
       };
     default:

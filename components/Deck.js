@@ -1,5 +1,9 @@
 import React, { Component } from "react";
-import { Button, Text, View } from "react-native";
+import { Alert, Button, Text, View } from "react-native";
+import { connect } from "react-redux";
+
+import { removeDeck } from "../utils/api";
+import { deleteDeck } from "../actions";
 
 class Deck extends Component {
   handleAddCard = () => {
@@ -14,8 +18,26 @@ class Deck extends Component {
   };
   handleDeleteDeck = () => {
     // delete deck, then go back
-    const { goBack } = this.props.navigation;
-    goBack();
+    const { deckId } = this.props.navigation.state.params;
+
+    Alert.alert(
+      "Delete Deck",
+      `Are you sure you want to delete the deck ${deckId}?`,
+      [
+        { text: "Cancel" },
+        {
+          text: "OK",
+          onPress: async () => {
+            const { deleteDeck } = this.props;
+            await removeDeck(deckId);
+            deleteDeck(deckId);
+            const { goBack } = this.props.navigation;
+            goBack();
+          }
+        }
+      ],
+      { cancelable: true }
+    );
   };
   render() {
     const { deckId } = this.props.navigation.state.params;
@@ -31,4 +53,7 @@ class Deck extends Component {
   }
 }
 
-export default Deck;
+export default connect(
+  null,
+  { deleteDeck }
+)(Deck);

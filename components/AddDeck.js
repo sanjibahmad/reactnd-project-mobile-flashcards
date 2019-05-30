@@ -12,7 +12,7 @@ class AddDeck extends Component {
     this.setState({ deckTitle: text });
   };
 
-  handleAddDeck = () => {
+  handleAddDeck = async () => {
     const { deckTitle } = this.state;
     const { navigate } = this.props.navigation;
 
@@ -40,9 +40,8 @@ class AddDeck extends Component {
     // add deck, then navigate to the freshly created deck
 
     const { addDeck } = this.props;
-    saveDeck(deckTitle).then(deck => {
-      addDeck(deck);
-    });
+    const deck = await saveDeck(deckTitle);
+    addDeck(deck);
     navigate("Deck", { deckId: deckTitle });
   };
 
