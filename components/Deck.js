@@ -11,11 +11,13 @@ class Deck extends Component {
     const { deckId } = this.props.navigation.state.params;
     navigate("AddCard", { deckId: deckId });
   };
+
   handleStartQuiz = () => {
     const { navigate } = this.props.navigation;
     const { deckId } = this.props.navigation.state.params;
     navigate("Quiz", { deckId: deckId });
   };
+
   handleDeleteDeck = () => {
     // delete deck, then go back
     const { deckId } = this.props.navigation.state.params;

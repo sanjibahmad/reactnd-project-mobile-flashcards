@@ -1,16 +1,11 @@
 import React, { Component } from "react";
 import { Button, Text, View } from "react-native";
+import { connect } from "react-redux";
+
+import Card from "./Card";
 
 class Quiz extends Component {
   state = { score: 0, currentQuestionId: 0 };
-  numberOfQuestions = 0;
-  deck = null;
-
-  componentWillMount() {
-    // get/set this.deck
-    // set this.numberOfQuestions
-    this.numberOfQuestions = 4;
-  }
 
   handleResponse = ({ isCorrect }) => {
     if (isCorrect === true) {
@@ -26,13 +21,17 @@ class Quiz extends Component {
   };
 
   quiz() {
-    const { deckId } = this.props.navigation.state.params;
+    const { deck } = this.props;
+    const { currentQuestionId } = this.state;
+    console.log(deck.questions[currentQuestionId]);
 
     return (
       <View>
-        <Text>start quiz for deck: {deckId}</Text>
-        <Text>x/y number of questions</Text>
-        <Text>Question / Answer</Text>
+        <Text>start quiz for deck: {deck.title}</Text>
+        <Text>
+          Question: {currentQuestionId + 1} of {deck.questions.length}
+        </Text>
+        <Card card={deck.questions[currentQuestionId]} />
         <Button
           onPress={() => {
             this.handleResponse({ isCorrect: true });
@@ -51,17 +50,18 @@ class Quiz extends Component {
 
   quizResult() {
     const { navigate } = this.props.navigation;
-    const { deckId } = this.props.navigation.state.params;
+    const { deck } = this.props;
+
     let score = 0;
-    if (this.numberOfQuestions !== 0) {
+    if (deck.questions.length !== 0) {
       score =
-        Math.round((this.state.score / this.numberOfQuestions) * 10000) / 100;
+        Math.round((this.state.score / deck.questions.length) * 10000) / 100;
     }
 
     return (
       <View>
-        <Text>quiz result for deck: {deckId}</Text>
-        <Text>Total questions {this.numberOfQuestions}</Text>
+        <Text>quiz result for deck: {deck.title}</Text>
+        <Text>Total questions {deck.questions.length}</Text>
         <Text>You scored {score} %</Text>
         <Button
           onPress={() => {
@@ -80,7 +80,17 @@ class Quiz extends Component {
   }
 
   render() {
-    if (this.numberOfQuestions === 0) {
+    const { deck } = this.props;
+
+    if (!deck) {
+      return (
+        <View>
+          <Text>Loading...</Text>
+        </View>
+      );
+    }
+
+    if (deck.questions.length === 0) {
       return (
         <View>
           <Text>
@@ -89,12 +99,20 @@ class Quiz extends Component {
           </Text>
         </View>
       );
-    } else if (this.state.currentQuestionId === this.numberOfQuestions) {
-      return this.quizResult();
-    } else {
-      return this.quiz();
     }
+
+    if (this.state.currentQuestionId === deck.questions.length) {
+      return this.quizResult();
+    }
+
+    return this.quiz();
   }
 }
 
-export default Quiz;
+const mapStateToProps = (decks, ownProps) => {
+  const { deckId } = ownProps.navigation.state.params;
+  const deck = decks[deckId];
+  return { deck };
+};
+
+export default connect(mapStateToProps)(Quiz);
