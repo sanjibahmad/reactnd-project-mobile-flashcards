@@ -20,21 +20,21 @@ class Deck extends Component {
 
   handleDeleteDeck = () => {
     // delete deck, then go back
-    const { deckId } = this.props.navigation.state.params;
+    // const { deckId } = this.props.navigation.state.params;
+    const { deck, navigation } = this.props;
 
     Alert.alert(
       "Delete Deck",
-      `Are you sure you want to delete the deck ${deckId}?`,
+      `Are you sure you want to delete the deck ${deck.title}?`,
       [
         { text: "Cancel" },
         {
           text: "OK",
           onPress: async () => {
             const { deleteDeck } = this.props;
-            await removeDeckFromStorage(deckId);
-            deleteDeck(deckId);
-            const { goBack } = this.props.navigation;
-            goBack();
+            await removeDeckFromStorage(deck.title);
+            deleteDeck(deck.title);
+            navigation.navigate("Decks");
           }
         }
       ],
@@ -42,7 +42,6 @@ class Deck extends Component {
     );
   };
   render() {
-    // const { deckId } = this.props.navigation.state.params;
     const { deck } = this.props;
 
     if (!deck) {

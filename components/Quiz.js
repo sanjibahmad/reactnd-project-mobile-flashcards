@@ -55,8 +55,7 @@ class Quiz extends Component {
   }
 
   quizResult() {
-    const { navigate } = this.props.navigation;
-    const { deck } = this.props;
+    const { navigation, deck } = this.props;
 
     let score = 0;
     if (deck.questions.length !== 0) {
@@ -77,7 +76,7 @@ class Quiz extends Component {
         />
         <Button
           onPress={() => {
-            navigate("Home");
+            navigation.navigate("Decks");
           }}
           title="Go to Decks"
         />

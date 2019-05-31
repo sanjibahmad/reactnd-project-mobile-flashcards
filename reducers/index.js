@@ -13,9 +13,12 @@ function decks(state = {}, action) {
         ...action.deck
       };
     case DELETE_DECK:
-      return Object.keys(state)
-        .filter(deckId => deckId !== action.deckId)
-        .map(deckId => state[deckId]);
+      return Object.keys(state).reduce((decks, deckId) => {
+        if (deckId !== action.deckId) {
+          decks[deckId] = state[deckId];
+        }
+        return decks;
+      }, {});
     case ADD_CARD:
       return {
         ...state,
