@@ -74,21 +74,19 @@ export async function setLocalNotification() {
       Permissions.NOTIFICATIONS
     );
     if (permissionsNotifications.status === "granted") {
-      console.log("will set notifications");
-
       Notifications.cancelAllScheduledNotificationsAsync();
       let tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
       tomorrow.setHours(15);
       tomorrow.setMinutes(0);
 
-      let now = new Date();
-      now.setDate(now.getDate());
-      now.setSeconds(now.getSeconds() + 5);
+      // let now = new Date();
+      // now.setDate(now.getDate());
+      // now.setSeconds(now.getSeconds() + 5);
 
       Notifications.scheduleLocalNotificationAsync(createNotification(), {
-        // time: tomorrow,
-        time: now,
+        time: tomorrow,
+        // time: now,
         repeat: "day"
       });
 

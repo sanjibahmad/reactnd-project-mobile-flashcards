@@ -38,12 +38,12 @@ class AddDeck extends Component {
       return;
     }
 
-    // add deck, then navigate to the freshly created deck
-
+    // add deck, reset title, then navigate to the freshly created deck
     const { addDeck } = this.props;
     const deck = createDeckObject(deckTitle);
     await saveDeckInStorage(deck);
     addDeck(deck);
+    this.setState({ deckTitle: "" });
     navigate("Deck", { deckId: deckTitle });
   };
 
@@ -52,6 +52,7 @@ class AddDeck extends Component {
       <View>
         <Text>What's the Title of Your New Deck?</Text>
         <TextInput
+          value={this.state.deckTitle}
           onChangeText={this.onChangeText}
           style={{ borderColor: "gray", borderWidth: 1 }}
         />

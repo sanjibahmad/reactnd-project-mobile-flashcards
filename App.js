@@ -7,7 +7,11 @@ import {
   createBottomTabNavigator,
   createMaterialTopTabNavigator
 } from "react-navigation-tabs";
-import { createAppContainer, createStackNavigator } from "react-navigation";
+import {
+  createAppContainer,
+  createStackNavigator,
+  HeaderBackButton
+} from "react-navigation";
 import { clearLocalNotification, setLocalNotification } from "./utils/helper";
 
 import reducer from "./reducers";
@@ -53,10 +57,17 @@ const MainNavigator = createStackNavigator({
   },
   Deck: {
     screen: Deck,
-    navigationOptions: {
+    navigationOptions: ({ navigation, screenProps }) => ({
       ...stackNavigatorSettings.navigationOptions,
-      title: "Deck"
-    }
+      title: "Deck",
+      headerLeft: (
+        <HeaderBackButton
+          onPress={() => {
+            navigation.navigate("Decks");
+          }}
+        />
+      )
+    })
   },
   AddCard: {
     screen: AddCard,

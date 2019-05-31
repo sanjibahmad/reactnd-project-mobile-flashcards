@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Text, View } from "react-native";
 import { connect } from "react-redux";
-import { clearLocalNotification, setLocalNotification } from "./utils/helper";
+import { clearLocalNotification, setLocalNotification } from "../utils/helper";
 
 import Card from "./Card";
 
