@@ -9,7 +9,7 @@ export function createRgbaFromAnyText(text = "") {
   function normalizeColorRange(charCodeAt) {
     // 1. reset a to 0 (minus 97), as charCodeAt(97) = a
     // 2. charCodeRange is now from 0 - 25 (26 alphabets)
-    // 3. color range is from 0 - 255, so multiply by 10
+    // 3. color range is from 0 - 255, so multiply by 10 (consistent results)
     const charCodeRange = charCodeAt - 97;
     return charCodeRange * 10;
   }
@@ -57,6 +57,11 @@ export function getDummyData() {
         {
           question: "Where do you make Ajax requests in React?",
           answer: "The componentDidMount lifecycle event"
+        },
+        {
+          question: "What is JSX?",
+          answer:
+            "Stands for JavaScript XML. It allows combining JavaScript with HTML. Results in easier implementation and clean code."
         }
       ]
     },
@@ -67,6 +72,27 @@ export function getDummyData() {
           question: "What is a closure?",
           answer:
             "The combination of a function and the lexical environment within which that function was declared."
+        }
+      ]
+    },
+    "HTML and CSS": {
+      title: "HTML and CSS",
+      questions: [
+        {
+          question: "What does HTML stand for?",
+          answer: "Hyper Text Markup Language"
+        },
+        {
+          question: "Who is making the Web standards?",
+          answer: "The World Wide Web Consortium"
+        },
+        {
+          question: "What's the tag to create a numbered list?",
+          answer: "<ol>"
+        },
+        {
+          question: "What does CSS stand for?",
+          answer: "Cascading Style Sheets"
         }
       ]
     }
