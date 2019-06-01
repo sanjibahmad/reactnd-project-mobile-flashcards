@@ -8,7 +8,13 @@ import { commonStyles } from "../utils/styles";
 import { default as Flashcard } from "./Card";
 
 class Quiz extends Component {
-  state = { score: 0, currentQuestionId: 0 };
+  state = { score: 0, currentQuestionId: 0, shouldShowQuestion: true };
+
+  handleFlipCard = () => {
+    this.setState(previousState => {
+      return { shouldShowQuestion: !previousState.shouldShowQuestion };
+    });
+  };
 
   handleResponse = async ({ isCorrect }) => {
     if (isCorrect === true) {
@@ -19,7 +25,10 @@ class Quiz extends Component {
 
     // increment state.currentQuestionId
     this.setState(previousState => {
-      return { currentQuestionId: previousState.currentQuestionId + 1 };
+      return {
+        currentQuestionId: previousState.currentQuestionId + 1,
+        shouldShowQuestion: true
+      };
     });
 
     // user has completed at least one quiz for today
@@ -40,7 +49,11 @@ class Quiz extends Component {
           Question: {currentQuestionId + 1} of {deck.questions.length}
         </Text>
         <Card>
-          <Flashcard card={deck.questions[currentQuestionId]} />
+          <Flashcard
+            card={deck.questions[currentQuestionId]}
+            shouldShowQuestion={this.state.shouldShowQuestion}
+            handleFlipCard={this.handleFlipCard}
+          />
         </Card>
         <View
           style={{

@@ -3,35 +3,35 @@ import { View, StyleSheet } from "react-native";
 import { Text, Button } from "react-native-elements";
 
 class Card extends Component {
-  state = { shouldShowQuestion: true };
-  flipCard = () => {
-    this.setState(previousState => {
-      return { shouldShowQuestion: !previousState.shouldShowQuestion };
-    });
-  };
+  // state = { shouldShowQuestion: true };
+  // flipCard = () => {
+  //   this.setState(previousState => {
+  //     return { shouldShowQuestion: !previousState.shouldShowQuestion };
+  //   });
+  // };
 
-  showQuestion() {
+  showQuestion(handleFlipCard) {
     const { card } = this.props;
     return (
       <View>
         <Text h2>{card.question}</Text>
         <Button
-          onPress={this.flipCard}
-          title="Answer"
+          onPress={handleFlipCard}
+          title="View Answer"
           buttonStyle={style.qaButton}
         />
       </View>
     );
   }
 
-  showAnswer() {
+  showAnswer(handleFlipCard) {
     const { card } = this.props;
     return (
       <View>
         <Text h4>{card.answer}</Text>
         <Button
-          onPress={this.flipCard}
-          title="Question"
+          onPress={handleFlipCard}
+          title="View Question"
           buttonStyle={style.qaButton}
         />
       </View>
@@ -40,8 +40,10 @@ class Card extends Component {
 
   render() {
     // console.log(card);
-    const { shouldShowQuestion } = this.state;
-    return shouldShowQuestion ? this.showQuestion() : this.showAnswer();
+    const { shouldShowQuestion, handleFlipCard } = this.props;
+    return shouldShowQuestion
+      ? this.showQuestion(handleFlipCard)
+      : this.showAnswer(handleFlipCard);
   }
 }
 
