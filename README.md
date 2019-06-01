@@ -9,7 +9,7 @@ The app allows the user to create decks. Each deck contains a set of cards with 
 The user can start a quiz for a given deck and evaluate themselves for correct or incorrect answers.
 Users are given a score at the end of completing a quiz session.
 
-A scheduled notificaiton is shown everyday at 3:00 pm if the user hasn't attempted at least one quiz question for that day.
+A scheduled notification is shown everyday at 3:00 pm if the user hasn't attempted at least one quiz question for that day.
 
 ## Technical Specs
 
