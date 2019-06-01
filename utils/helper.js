@@ -75,11 +75,14 @@ export async function setLocalNotification() {
     );
     if (permissionsNotifications.status === "granted") {
       Notifications.cancelAllScheduledNotificationsAsync();
+
+      // schedule notification everyday at 3:00 pm
       let tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
       tomorrow.setHours(15);
       tomorrow.setMinutes(0);
 
+      // used for testing - schedule a notification 5 seconds from now
       // let now = new Date();
       // now.setDate(now.getDate());
       // now.setSeconds(now.getSeconds() + 5);
@@ -98,34 +101,4 @@ export async function setLocalNotification() {
       );
     }
   }
-
-  // AsyncStorage.getItem(NOTIFICATION_KEY)
-  //   .then(JSON.parse)
-  //   .then(data => {
-  //     if (data === null) {
-  //       Permissions.askAsync(Permissions.NOTIFICATIONS).then(({ status }) => {
-  //         if (status === "granted") {
-  //           Notifications.cancelAllScheduledNotificationsAsync();
-  //           let tomorrow = new Date();
-  //           tomorrow.setDate(tomorrow.getDate() + 1);
-  //           tomorrow.setHours(20);
-  //           tomorrow.setMinutes(0);
-  //
-  //           let now = new Date();
-  //           now.setDate(now.getDate());
-  //           now.setSeconds(now.getSeconds() + 5);
-  //
-  //           // Notifications.scheduleLocalNotificationAsync(createNotification(), {
-  //           //   // time: tomorrow,
-  //           //   time: now,
-  //           //   repeat: "day"
-  //           // });
-  //
-  //           Notifications.presentLocalNotificationAsync(createNotification());
-  //
-  //           AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true));
-  //         }
-  //       });
-  //     }
-  //   });
 }

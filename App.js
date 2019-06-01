@@ -13,6 +13,7 @@ import {
   HeaderBackButton
 } from "react-navigation";
 import { clearLocalNotification, setLocalNotification } from "./utils/helper";
+import { Icon } from "react-native-elements";
 
 import reducer from "./reducers";
 import Decks from "./components/Decks";
@@ -26,20 +27,49 @@ const store = createStore(reducer);
 const tabNavigatorSettings = {
   routeConfigs: {
     Decks: {
-      screen: Decks
+      screen: Decks,
+      navigationOptions: {
+        tabBarLabel: "Decks",
+        tabBarIcon: (
+          <Icon
+            name="cards-outline"
+            type="material-community"
+            iconStyle={{ color: "white" }}
+          />
+        )
+      }
     },
     AddDeck: {
-      screen: AddDeck
+      screen: AddDeck,
+      navigationOptions: {
+        tabBarLabel: "Add Deck",
+        tabBarIcon: (
+          <Icon name="add" type="material" iconStyle={{ color: "white" }} />
+        )
+      }
     }
   },
   navigationOptions: {
     navigationOptions: { header: null },
-    tabBarOptions: {}
+    tabBarOptions: {
+      activeTintColor: "white",
+      inactiveTintColor: "white",
+      inactiveBackgroundColor: "gray",
+      activeBackgroundColor: "dimgray",
+      style: {
+        backgroundColor: "dimgray"
+      }
+    }
   }
 };
 
 const stackNavigatorSettings = {
-  navigationOptions: {}
+  navigationOptions: {
+    headerTintColor: "white",
+    headerStyle: {
+      backgroundColor: "dimgray"
+    }
+  }
 };
 
 const MainNavigator = createStackNavigator({
@@ -65,6 +95,7 @@ const MainNavigator = createStackNavigator({
           onPress={() => {
             navigation.navigate("Decks");
           }}
+          tintColor="white"
         />
       )
     })
@@ -106,7 +137,7 @@ export default class App extends React.Component {
       <Provider store={store}>
         <View style={{ flex: 1 }}>
           <FlashcardsStatusBar
-            backgroundColor="gray"
+            backgroundColor="dimgray"
             barStyle="light-content"
           />
           <AppContainer />

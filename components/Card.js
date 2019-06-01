@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Button, Text, View } from "react-native";
+import { View, StyleSheet } from "react-native";
+import { Text, Button } from "react-native-elements";
 
 class Card extends Component {
   state = { shouldShowQuestion: true };
@@ -8,22 +9,44 @@ class Card extends Component {
       return { shouldShowQuestion: !previousState.shouldShowQuestion };
     });
   };
-  render() {
+
+  showQuestion() {
     const { card } = this.props;
-    // console.log(card);
-    const { shouldShowQuestion } = this.state;
-    return shouldShowQuestion ? (
+    return (
       <View>
-        <Text>{card.question}</Text>
-        <Button onPress={this.flipCard} title="Answer" />
-      </View>
-    ) : (
-      <View>
-        <Text>{card.answer}</Text>
-        <Button onPress={this.flipCard} title="Question" />
+        <Text h2>{card.question}</Text>
+        <Button
+          onPress={this.flipCard}
+          title="Answer"
+          buttonStyle={style.qaButton}
+        />
       </View>
     );
   }
+
+  showAnswer() {
+    const { card } = this.props;
+    return (
+      <View>
+        <Text h4>{card.answer}</Text>
+        <Button
+          onPress={this.flipCard}
+          title="Question"
+          buttonStyle={style.qaButton}
+        />
+      </View>
+    );
+  }
+
+  render() {
+    // console.log(card);
+    const { shouldShowQuestion } = this.state;
+    return shouldShowQuestion ? this.showQuestion() : this.showAnswer();
+  }
 }
+
+const style = StyleSheet.create({
+  qaButton: { backgroundColor: "gray", marginTop: 20 }
+});
 
 export default Card;

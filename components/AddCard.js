@@ -1,10 +1,19 @@
 import React, { Component } from "react";
-import { Alert, Button, Text, TextInput, View } from "react-native";
+import {
+  Alert,
+  KeyboardAvoidingView,
+  ScrollView,
+  TextInput,
+  View
+} from "react-native";
+import { Button, Icon, Input, Text } from "react-native-elements";
 import { connect } from "react-redux";
 
 import { saveCardInStorage } from "../utils/api";
 import { createCardObject } from "../utils/helper";
 import { addCard } from "../actions";
+import { commonStyles } from "../utils/styles";
+import SubmitButton from "./SubmitButton";
 
 class AddCard extends Component {
   state = { question: "", answer: "" };
@@ -44,18 +53,48 @@ class AddCard extends Component {
     const { deckId } = this.props.navigation.state.params;
 
     return (
-      <View>
-        <Text>add card to deck: {deckId}</Text>
-        <TextInput
-          onChangeText={this.onChangeTextQuestion}
-          style={{ borderColor: "gray", borderWidth: 1 }}
-        />
-        <TextInput
-          onChangeText={this.onChangeTextAnswer}
-          style={{ borderColor: "gray", borderWidth: 1 }}
-        />
-        <Button onPress={this.handleAddCard} title="Submit" />
-      </View>
+      <ScrollView style={commonStyles.genericTextContainer}>
+        <KeyboardAvoidingView behavior="padding">
+          <Text h4 style={{ marginBottom: 20 }}>
+            Add a card to deck: {deckId}
+          </Text>
+          <Input
+            placeholder="Type your question here"
+            onChangeText={this.onChangeTextQuestion}
+            inputStyle={{}}
+            leftIcon={
+              <Icon
+                name="comment-question-outline"
+                type="material-community"
+                size={24}
+                color="black"
+                iconStyle={{ marginRight: 10 }}
+              />
+            }
+          />
+          <Input
+            onChangeText={this.onChangeTextAnswer}
+            placeholder="Type your answer here"
+            multiline={true}
+            inputStyle={{
+              height: 100,
+              textAlignVertical: "top"
+            }}
+            leftIcon={
+              <Icon
+                name="message-reply-text"
+                type="material-community"
+                size={24}
+                color="black"
+                iconStyle={{ marginRight: 10, marginBottom: 90 }}
+              />
+            }
+          />
+          <View style={commonStyles.flashcardsButtonContainer}>
+            <SubmitButton handleOnPress={this.handleAddCard} />
+          </View>
+        </KeyboardAvoidingView>
+      </ScrollView>
     );
   }
 }

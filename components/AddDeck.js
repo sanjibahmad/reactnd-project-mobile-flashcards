@@ -1,10 +1,13 @@
 import React, { Component } from "react";
-import { Alert, Button, Text, TextInput, View } from "react-native";
+import { Alert, KeyboardAvoidingView, View, ScrollView } from "react-native";
 import { connect } from "react-redux";
+import { Icon, Input, Text } from "react-native-elements";
 
 import { saveDeckInStorage } from "../utils/api";
 import { createDeckObject } from "../utils/helper";
+import { commonStyles } from "../utils/styles";
 import { addDeck } from "../actions";
+import SubmitButton from "./SubmitButton";
 
 class AddDeck extends Component {
   state = { deckTitle: "" };
@@ -49,15 +52,30 @@ class AddDeck extends Component {
 
   render() {
     return (
-      <View>
-        <Text>What's the Title of Your New Deck?</Text>
-        <TextInput
-          value={this.state.deckTitle}
-          onChangeText={this.onChangeText}
-          style={{ borderColor: "gray", borderWidth: 1 }}
-        />
-        <Button onPress={this.handleAddDeck} title="Submit" />
-      </View>
+      <ScrollView style={commonStyles.genericTextContainer}>
+        <KeyboardAvoidingView behavior="padding">
+          <Text h4 style={{ marginBottom: 20 }}>
+            What's the Title of Your New Deck?
+          </Text>
+          <Input
+            placeholder="Type the title of your deck"
+            value={this.state.deckTitle}
+            onChangeText={this.onChangeText}
+            leftIcon={
+              <Icon
+                name="cards-outline"
+                type="material-community"
+                size={24}
+                color="black"
+                iconStyle={{ marginRight: 10 }}
+              />
+            }
+          />
+          <View style={commonStyles.flashcardsButtonContainer}>
+            <SubmitButton handleOnPress={this.handleAddDeck} />
+          </View>
+        </KeyboardAvoidingView>
+      </ScrollView>
     );
   }
 }

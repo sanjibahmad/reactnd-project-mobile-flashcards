@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
+import { Text } from "react-native-elements";
 
 import {
   fetchDecksFromStorage,
@@ -9,6 +10,7 @@ import {
 } from "../utils/api";
 import { loadDecks } from "../actions";
 import { getDummyData } from "../utils/helper";
+import DeckPartTile from "./DeckPartTile";
 
 class Decks extends Component {
   state = { ready: false };
@@ -48,7 +50,7 @@ class Decks extends Component {
     // console.log(decks);
 
     return (
-      <View>
+      <ScrollView>
         {Object.keys(decks).map(deckId => {
           const deck = decks[deckId];
           return (
@@ -56,12 +58,11 @@ class Decks extends Component {
               key={deckId}
               onPress={() => this.handleOnPress(deckId)}
             >
-              <Text>{deck.title}</Text>
-              <Text>{deck.questions.length} cards</Text>
+              <DeckPartTile deck={deck} />
             </TouchableOpacity>
           );
         })}
-      </View>
+      </ScrollView>
     );
   }
 }

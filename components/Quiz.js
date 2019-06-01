@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import { Button, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { connect } from "react-redux";
 import { clearLocalNotification, setLocalNotification } from "../utils/helper";
+import { Button, Card, Icon, Text } from "react-native-elements";
 
-import Card from "./Card";
+import { commonStyles } from "../utils/styles";
+import { default as Flashcard } from "./Card";
 
 class Quiz extends Component {
   state = { score: 0, currentQuestionId: 0 };
@@ -21,7 +23,8 @@ class Quiz extends Component {
     });
 
     // user has completed at least one quiz for today
-    // therefore reset notification
+    // therefore reset notification (no notification for today)
+    // and set new notification (new notification from tomorrow)
     await clearLocalNotification();
     setLocalNotification();
   };
@@ -29,28 +32,61 @@ class Quiz extends Component {
   quiz() {
     const { deck } = this.props;
     const { currentQuestionId } = this.state;
-    console.log(deck.questions[currentQuestionId]);
 
     return (
-      <View>
-        <Text>start quiz for deck: {deck.title}</Text>
+      <ScrollView style={commonStyles.genericTextContainer}>
+        <Text>Quiz for deck: {deck.title}</Text>
         <Text>
           Question: {currentQuestionId + 1} of {deck.questions.length}
         </Text>
-        <Card card={deck.questions[currentQuestionId]} />
-        <Button
-          onPress={() => {
-            this.handleResponse({ isCorrect: true });
+        <Card>
+          <Flashcard card={deck.questions[currentQuestionId]} />
+        </Card>
+        <View
+          style={{
+            ...commonStyles.flashcardsButtonContainer,
+            flexDirection: "row"
           }}
-          title="Correct"
-        />
-        <Button
-          onPress={() => {
-            this.handleResponse({ isCorrect: false });
-          }}
-          title="Incorrect"
-        />
-      </View>
+        >
+          <Button
+            onPress={() => {
+              this.handleResponse({ isCorrect: true });
+            }}
+            title="Correct"
+            buttonStyle={{
+              backgroundColor: "darkgreen",
+              width: 120
+            }}
+            icon={
+              <Icon
+                name="check-circle"
+                size={15}
+                color="white"
+                iconStyle={{ marginRight: 5 }}
+              />
+            }
+          />
+          <View style={{ width: 20 }} />
+          <Button
+            onPress={() => {
+              this.handleResponse({ isCorrect: false });
+            }}
+            title="Incorrect"
+            buttonStyle={{
+              backgroundColor: "darkred",
+              width: 120
+            }}
+            icon={
+              <Icon
+                name="cancel"
+                size={15}
+                color="white"
+                iconStyle={{ marginRight: 5 }}
+              />
+            }
+          />
+        </View>
+      </ScrollView>
     );
   }
 
@@ -64,23 +100,56 @@ class Quiz extends Component {
     }
 
     return (
-      <View>
-        <Text>quiz result for deck: {deck.title}</Text>
+      <ScrollView style={commonStyles.genericTextContainer}>
+        <Text>Quiz result for deck: {deck.title}</Text>
         <Text>Total questions {deck.questions.length}</Text>
-        <Text>You scored {score} %</Text>
-        <Button
-          onPress={() => {
-            this.setState({ score: 0, currentQuestionId: 0 });
+
+        <Card
+          wrapperStyle={{
+            // flex: 1,
+            alignItems: "center"
           }}
-          title="Start Quiz Again"
-        />
-        <Button
-          onPress={() => {
-            navigation.navigate("Decks");
-          }}
-          title="Go to Decks"
-        />
-      </View>
+        >
+          <Text h2>You scored</Text>
+          <Text h2>{score} %</Text>
+        </Card>
+
+        <View style={commonStyles.flashcardsButtonContainer}>
+          <Button
+            onPress={() => {
+              this.setState({ score: 0, currentQuestionId: 0 });
+            }}
+            title="Start Quiz Again"
+            icon={
+              <Icon
+                name="school"
+                size={15}
+                color="white"
+                iconStyle={{ marginRight: 10 }}
+              />
+            }
+            buttonStyle={commonStyles.flashcardsButton}
+          />
+          <Button
+            onPress={() => {
+              navigation.navigate("Decks");
+            }}
+            title="Go to Decks"
+            icon={
+              <Icon
+                name="arrow-back"
+                size={15}
+                color="white"
+                iconStyle={{ marginRight: 10 }}
+              />
+            }
+            buttonStyle={{
+              ...commonStyles.flashcardsButton,
+              backgroundColor: "gray"
+            }}
+          />
+        </View>
+      </ScrollView>
     );
   }
 
@@ -97,12 +166,12 @@ class Quiz extends Component {
 
     if (deck.questions.length === 0) {
       return (
-        <View>
-          <Text>
+        <ScrollView style={commonStyles.genericTextContainer}>
+          <Text h5>
             The number of questions for this deck is zero. Please add some cards
             then start the quiz.
           </Text>
-        </View>
+        </ScrollView>
       );
     }
 

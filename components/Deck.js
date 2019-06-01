@@ -1,9 +1,12 @@
 import React, { Component } from "react";
-import { Alert, Button, Text, View } from "react-native";
+import { Alert, ScrollView, View, StyleSheet } from "react-native";
 import { connect } from "react-redux";
+import { Button, Icon, Text } from "react-native-elements";
 
 import { removeDeckFromStorage } from "../utils/api";
+import { commonStyles } from "../utils/styles";
 import { deleteDeck } from "../actions";
+import DeckPartTile from "./DeckPartTile";
 
 class Deck extends Component {
   handleAddCard = () => {
@@ -53,13 +56,57 @@ class Deck extends Component {
     }
 
     return (
-      <View>
-        <Text>Deck Title {deck.title}</Text>
-        <Text>{deck.questions.length} number of cards</Text>
-        <Button onPress={this.handleAddCard} title="Add Card" />
-        <Button onPress={this.handleStartQuiz} title="Start Quiz" />
-        <Button onPress={this.handleDeleteDeck} title="Delete Deck" />
-      </View>
+      <ScrollView>
+        <DeckPartTile deck={deck} />
+        <View style={commonStyles.flashcardsButtonContainer}>
+          <Button
+            onPress={this.handleAddCard}
+            title="Add Card"
+            icon={
+              <Icon
+                name="add"
+                type="material"
+                size={15}
+                color="white"
+                iconStyle={{ marginRight: 10 }}
+              />
+            }
+            buttonStyle={{
+              ...commonStyles.flashcardsButton,
+              backgroundColor: "gray"
+            }}
+          />
+          <Button
+            onPress={this.handleStartQuiz}
+            title="Start Quiz"
+            icon={
+              <Icon
+                name="school"
+                size={15}
+                color="white"
+                iconStyle={{ marginRight: 10 }}
+              />
+            }
+            buttonStyle={commonStyles.flashcardsButton}
+          />
+          <Button
+            onPress={this.handleDeleteDeck}
+            title="Delete Deck"
+            icon={
+              <Icon
+                name="delete"
+                size={15}
+                color="white"
+                iconStyle={{ marginRight: 10 }}
+              />
+            }
+            buttonStyle={{
+              ...commonStyles.flashcardsButton,
+              backgroundColor: "darkred"
+            }}
+          />
+        </View>
+      </ScrollView>
     );
   }
 }
