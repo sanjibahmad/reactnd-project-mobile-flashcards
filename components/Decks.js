@@ -16,7 +16,7 @@ class Decks extends Component {
   state = { ready: false };
 
   async componentDidMount() {
-    await removeAllDecksFromStorage();
+    // await removeAllDecksFromStorage();
 
     const { loadDecks } = this.props;
 

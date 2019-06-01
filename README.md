@@ -1,5 +1,7 @@
 # Udacity ReactND Project - Mobile Flashcards
 
+<img src="./assets/flashcard-splash.png" align="left" width="400" />
+
 The Mobile Flashcards app is the 3rd and final project required for the Udacity React Nanodegree program. 
 This is a React Native app so the same codebase is used to create packages for both Androids and iOS. 
 The app has been tested on two physical devices Samsung S10 and Apple iPad using Expo.
