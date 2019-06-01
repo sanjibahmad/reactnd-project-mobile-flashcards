@@ -3,6 +3,35 @@ import { Notifications, Permissions } from "expo";
 
 const NOTIFICATION_STUDY_REMINDER_KEY = "Flashcards:NotificationsStudyReminder";
 
+export function createRgbaFromAnyText(text = "") {
+  // creates sequence of rgba values from strings
+
+  function normalizeColorRange(charCodeAt) {
+    // 1. reset a to 0 (minus 97), as charCodeAt(97) = a
+    // 2. charCodeRange is now from 0 - 25 (26 alphabets)
+    // 3. color range is from 0 - 255, so multiply by 10
+    const charCodeRange = charCodeAt - 97;
+    return charCodeRange * 10;
+  }
+
+  let at = 0;
+  const colors = text
+    .split("")
+    .map(char => normalizeColorRange(char.toLowerCase().charCodeAt(0)))
+    .reduce(
+      (rgb, code) => {
+        at = at > 2 ? 0 : at;
+        rgb[at] = rgb[at] + code > 255 ? rgb[at] + code - 255 : rgb[at] + code;
+        at++;
+        return rgb;
+      },
+      [0, 0, 0]
+    );
+
+  const alpha = 0.5;
+  return [...colors, alpha];
+}
+
 export function createDeckObject(deckTitle) {
   return {
     [deckTitle]: {
