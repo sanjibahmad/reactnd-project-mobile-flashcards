@@ -132,7 +132,7 @@ class Quiz extends Component {
             onPress={() => {
               this.setState({ score: 0, currentQuestionId: 0 });
             }}
-            title="Start Quiz Again"
+            title="Restart Quiz"
             icon={
               <Icon
                 name="school"
@@ -145,9 +145,9 @@ class Quiz extends Component {
           />
           <Button
             onPress={() => {
-              navigation.navigate("Decks");
+              navigation.navigate("Deck");
             }}
-            title="Go to Decks"
+            title="Back to Deck"
             icon={
               <Icon
                 name="arrow-back"
