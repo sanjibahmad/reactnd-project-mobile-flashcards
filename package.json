@@ -17,7 +17,8 @@
     "redux": "^4.0.4"
   },
   "devDependencies": {
-    "babel-preset-expo": "^8.1.0"
+    "babel-preset-expo": "^8.1.0",
+    "minimist": "^1.2.5"
   },
   "private": true
 }
