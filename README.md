@@ -13,6 +13,13 @@ Users are given a score at the end of completing a quiz session.
 
 A scheduled notification is shown everyday at 3:00 pm if the user hasn't attempted at least one quiz question for that day.
 
+Update: 2020-May-15
+The program won't compile anymore as I am removing the following dependency:
+"react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+
+Reason for removal:
+optimist@^0.6.1 depends on outdated package minimist "~0.0.1"
+
 ## Technical Specs
 
 The app uses the following packages:
